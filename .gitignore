@@ -4,3 +4,7 @@
 
 # IDE
 .vscode/
+
+console/Clients/Source/token.json
+console/Clients/ExternalSource/externalsource.json
+console/AppConfig/config.json
