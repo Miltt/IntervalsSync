@@ -1,0 +1,11 @@
+{
+    "FitbitConfig": {
+        "ClientId": "",
+        "ClientSecret": ""
+    },
+    "IntervalsConfig": {
+        "UserId": "",
+        "Username": "",
+        "ApiKey": ""
+    }
+}
