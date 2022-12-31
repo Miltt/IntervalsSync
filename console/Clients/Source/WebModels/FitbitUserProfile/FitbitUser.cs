@@ -21,7 +21,7 @@ namespace Sync.WebModels
         [JsonPropertyName("challengesBeta")]
         public bool ChallengesBeta { get; set; }
         [JsonPropertyName("clockTimeDisplayFormat")]
-        public string? ClockTimeDisplayFormat { get; set; } // TODO: FitbitProfileTimeFormat
+        public string? ClockTimeDisplayFormat { get; set; } // TODO: enum FitbitProfileTimeFormat
         [JsonPropertyName("corporate")]
         public bool Corporate { get; set; }
         [JsonPropertyName("corporateAdmin")]
