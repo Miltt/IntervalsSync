@@ -5,10 +5,16 @@ namespace Sync.Utilities
     public static class Extensions
     {
         private const string WebApiFormat = "yyyy-MM-dd";
+        private const string WebApiTimeFormat = "HH:mm";
 
         public static string ToWebApiFormat(this DateTime value)
         {
             return value.ToString(WebApiFormat);
+        }
+
+        public static string ToWebApiTimeFormat(this DateTime value)
+        {
+            return value.ToString(WebApiTimeFormat);
         }
 
         public static async Task VerifyResponseAsync(this HttpResponseMessage response)

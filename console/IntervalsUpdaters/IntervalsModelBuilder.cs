@@ -4,7 +4,8 @@ namespace Sync.IntervalsUpdaters
 {
     public sealed class IntervalsModelBuilder
     {
-        public void BuildWellness(IntervalsWellness? intervalWellness, FitbitDataCollector.Wellness wellnessData, ExternalDataCollector.Data data)
+        public void BuildWellness(IntervalsWellness? intervalWellness, FitbitDataCollector.Wellness wellnessData, 
+            ExternalDataCollector.Data data)
         {
             if (intervalWellness is null)
                 throw new ArgumentNullException(nameof(intervalWellness));
@@ -21,7 +22,7 @@ namespace Sync.IntervalsUpdaters
                 intervalWellness.SleepQuality = GetSleepScore(fitbitSleep.Efficiency);
             }
 
-            intervalWellness.AvgSleepingHR = GetAvgSleepingHR();
+            intervalWellness.AvgSleepingHR = GetAvgSleepingHR(wellnessData.HrIntradaySeries);
             intervalWellness.Readiness = GetReadiness();
             intervalWellness.BodyFat = data.BodyFat;
             intervalWellness.Weight = data.Weight;
@@ -52,10 +53,13 @@ namespace Sync.IntervalsUpdaters
             return null;
         }
 
-        private double? GetAvgSleepingHR()
+        private double? GetAvgSleepingHR(FitbitHrIntradaySeries? hrIntradaySeries)
         {
-            // TODO: 
-            return null;
+            var items = hrIntradaySeries?.ActivitiesIntraday?.Dataset;
+
+            return items?.Count > 0
+                ? items.Average(i => i.Value)
+                : (double?)null;
         }
 
         private double? GetReadiness()

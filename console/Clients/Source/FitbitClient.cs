@@ -90,7 +90,8 @@ namespace Sync
                 cancellationToken: cancellationToken);
         }
 
-        public async Task<FitbitHrTimeSeries?> GetHeartRateTimeSeriesAsync(string userId, DateTime date, FitbitRequestPeriod period, CancellationToken cancellationToken)
+        public async Task<FitbitHrTimeSeries?> GetHeartRateTimeSeriesAsync(string userId, DateTime date, FitbitRequestPeriod period, 
+            CancellationToken cancellationToken)
         {
             ThrowIfUserIdIsInvalid(userId);
             ThrowIfDateIsInvalid(date);
@@ -99,6 +100,21 @@ namespace Sync
 
             return await GetAsync<FitbitHrTimeSeries>(
                 url: $"{BaseUrl}1/user/{userId}/activities/heart/date/{date.ToWebApiFormat()}/{period.GetDescription()}.json",
+                cancellationToken: cancellationToken);
+        }
+
+        public async Task<FitbitHrIntradaySeries?> GetHeartRateIntradayAsync(string userId, DateTime startDate, DateTime endDate, 
+            string level, 
+            CancellationToken cancellationToken)
+        {
+            ThrowIfUserIdIsInvalid(userId);
+            ThrowIfDateIsInvalid(startDate);
+            ThrowIfDateIsInvalid(endDate);
+
+            _logger.Add($"Getting the heart rate intraday time series data on a specific date range for a 24 hour period {userId}");
+
+            return await GetAsync<FitbitHrIntradaySeries>(
+                url: $"{BaseUrl}1/user/{userId}/activities/heart/date/{startDate.ToWebApiFormat()}/{endDate.ToWebApiFormat()}/{level}/time/{startDate.ToWebApiTimeFormat()}/{endDate.ToWebApiTimeFormat()}.json",
                 cancellationToken: cancellationToken);
         }
 

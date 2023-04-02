@@ -45,7 +45,7 @@ namespace Sync
                 config: configManager.FitbitConfig,
                 jsonFileManager: jsonFileManager,
                 logger: logger,
-                cancellationToken: CancellationToken.None);
+                cancellationToken: cancellationToken);
 
             FitbitDataCollector.Wellness wellnessData;
             using (var fitbitCollector = new FitbitDataCollector(fitbitTokenManager, logger))

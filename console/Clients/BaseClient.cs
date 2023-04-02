@@ -38,7 +38,7 @@ namespace Sync
 
         protected void ThrowIfDateIsInvalid(DateTime date)
         {
-            if (date == DateTime.MinValue || date > DateTime.Today)
+            if (date == DateTime.MinValue || date > DateTime.UtcNow)
                 throw new ArgumentException($"'{nameof(date)}' date must not be greater than today", nameof(date));
         }
     }

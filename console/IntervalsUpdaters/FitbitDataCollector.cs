@@ -10,14 +10,18 @@ namespace Sync.IntervalsUpdaters
             public FitbitSpO2? SpO2 { get; }
             public FitbitHrv? Hrv { get; }
             public FitbitHrTimeSeries? HrTimeSeries { get; }
+            public FitbitHrIntradaySeries? HrIntradaySeries { get; }
             public FitbitSleepLog? SleepLog { get; }
             public FitbitFoodLog? FoodLog { get; } 
 
-            public Wellness(FitbitSpO2? spO2, FitbitHrv? hrv, FitbitHrTimeSeries? hrTimeSeries, FitbitSleepLog? sleepLog, FitbitFoodLog? foodLog)
+            public Wellness(FitbitSpO2? spO2, FitbitHrv? hrv, FitbitHrTimeSeries? hrTimeSeries, FitbitHrIntradaySeries? hrIntradaySeries, 
+                FitbitSleepLog? sleepLog, 
+                FitbitFoodLog? foodLog)
             {
                 SpO2 = spO2;
                 Hrv = hrv;
                 HrTimeSeries = hrTimeSeries;
+                HrIntradaySeries = hrIntradaySeries;
                 SleepLog = sleepLog;
                 FoodLog = foodLog;
             }
@@ -59,6 +63,20 @@ namespace Sync.IntervalsUpdaters
                 userId: FitbitClient.CurrentUserId,
                 date: date,
                 cancellationToken: cancellationToken);
+            
+            var hrIntradaySeries = null as FitbitHrIntradaySeries;
+
+            var fitbitSleep = sleepLog?.Sleep?.FirstOrDefault();
+            if (fitbitSleep != null)
+            {
+                hrIntradaySeries = await _client.GetHeartRateIntradayAsync(
+                    userId: FitbitClient.CurrentUserId,
+                    startDate: fitbitSleep.StartTime,
+                    endDate: fitbitSleep.EndTime,
+                    level: FitbitHrIntradayDetailLevel.OneMin.ToDto(),
+                    cancellationToken: cancellationToken);
+            }
+
             var foodLog = await _client.GetFoodLogAsync(
                 userId: FitbitClient.CurrentUserId,
                 date: date.AddDays(-1),
@@ -68,6 +86,7 @@ namespace Sync.IntervalsUpdaters
                 spO2: spO2,
                 hrv: hrv,
                 hrTimeSeries: hrTimeSeries,
+                hrIntradaySeries: hrIntradaySeries,
                 sleepLog: sleepLog,
                 foodLog: foodLog);
         }

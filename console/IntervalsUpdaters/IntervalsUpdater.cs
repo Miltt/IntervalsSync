@@ -23,7 +23,9 @@ namespace Sync.IntervalsUpdaters
             _client.Dispose();
         }
 
-        public async Task UpdateWellnessAsync(DateTime date, FitbitDataCollector.Wellness wellnessData, ExternalDataCollector.Data data, CancellationToken cancellationToken)
+        public async Task UpdateWellnessAsync(DateTime date, FitbitDataCollector.Wellness wellnessData, 
+            ExternalDataCollector.Data data, 
+            CancellationToken cancellationToken)
         {
             await UpdateWellnessInternalAsync(
                 date: date,
@@ -37,7 +39,9 @@ namespace Sync.IntervalsUpdaters
                 cancellationToken: cancellationToken);
         }
 
-        private async Task UpdateWellnessInternalAsync(DateTime date, FitbitDataCollector.Wellness wellnessData, ExternalDataCollector.Data data, CancellationToken cancellationToken)
+        private async Task UpdateWellnessInternalAsync(DateTime date, FitbitDataCollector.Wellness wellnessData, 
+            ExternalDataCollector.Data data, 
+            CancellationToken cancellationToken)
         {
             var intervalWellness = await _client.GetWelnessAsync(
                 userId: _config.UserId,
