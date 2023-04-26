@@ -14,12 +14,16 @@ namespace Sync.IntervalsUpdaters
             intervalWellness.Hrv = wellnessData.Hrv?.Values?.FirstOrDefault()?.Rmssd?.DailyRmssd;
             intervalWellness.RestingHR = wellnessData.HrTimeSeries?.HrActivities?.FirstOrDefault()?.ActivitiesValue?.RestingHeartRate;
 
-            var fitbitSleep = wellnessData.SleepLog?.Sleep?.FirstOrDefault();
-            if (fitbitSleep != null)
+            var fitbitSleepSummary = wellnessData.SleepLog?.Summary;
+            if (fitbitSleepSummary != null)
             {
-                intervalWellness.SleepSecs = Convert.ToInt32(fitbitSleep.Duration / 1000);
-                intervalWellness.SleepScore = fitbitSleep.Efficiency;
-                intervalWellness.SleepQuality = GetSleepScore(fitbitSleep.Efficiency);
+                intervalWellness.SleepSecs = fitbitSleepSummary.TotalMinutesAsleep * 60;
+
+                var sleepScore = CalcSleepScore(
+                    totalTimeInBed: fitbitSleepSummary.TotalTimeInBed,
+                    totalMinutesAsleep: fitbitSleepSummary.TotalMinutesAsleep);
+                intervalWellness.SleepScore = sleepScore;
+                intervalWellness.SleepQuality = GetSleepQuality(sleepScore);
             }
 
             intervalWellness.AvgSleepingHR = GetAvgSleepingHR(wellnessData.HrIntradaySeries);
@@ -38,7 +42,14 @@ namespace Sync.IntervalsUpdaters
             intervalWellness.KcalConsumed = wellnessData.FoodLog?.Summary?.Calories;
         }
 
-        private int? GetSleepScore(int value)
+        private double? CalcSleepScore(int totalTimeInBed, int totalMinutesAsleep)
+        {
+            return totalMinutesAsleep < totalTimeInBed && totalTimeInBed > 0
+                ? (double)totalMinutesAsleep / totalTimeInBed * 100
+                : null;
+        }
+
+        private int? GetSleepQuality(double? value)
         {
             // TODO:
             if (value < 25)
