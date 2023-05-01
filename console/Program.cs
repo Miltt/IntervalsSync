@@ -2,6 +2,7 @@
 using Sync.Log;
 using Sync.Utilities;
 using Sync.IntervalsUpdaters;
+using Sync.Enumerator;
 
 namespace Sync
 {
@@ -13,16 +14,19 @@ namespace Sync
 
             var logger = new Logger(Logger.OutputType.Console);
             var jsonFileManager = new JsonFileManager();
-            var date = DateTime.Today; // TODO:
-            
-            try
+
+            var datePicker = new DatePicker(DateTime.Today); // TODO:
+            foreach (var date in datePicker)
             {
-                logger.Add($"Sync started: {date.ToWebApiFormat()}");
-                UpdateAsync(date, logger, jsonFileManager, CancellationToken.None).WaitAndUnwrapException();
-            }
-            catch (Exception e)
-            {
-                logger.Add(e.Message);
+                try
+                {
+                    logger.Add($"Sync started: {date.ToWebApiFormat()}");
+                    UpdateAsync(date, logger, jsonFileManager, CancellationToken.None).WaitAndUnwrapException();
+                }
+                catch (Exception e)
+                {
+                    logger.Add(e.Message);
+                }
             }
 
             logger.Add("Sync completed");
