@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace Sync.Utilities
 {
-    public class JsonFileManager : IJsonFileManager, IJsonReader
+    public class JsonFileManager : IJsonFileManager, IJsonReader, IJsonWritter
     {
         public async Task<T?> ReadFileAsync<T>(string path, CancellationToken cancellationToken)
             where T : class 

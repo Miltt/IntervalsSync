@@ -6,12 +6,15 @@ namespace Sync.Config
         {
             public FitbitConfig? FitbitConfig { get; set; }
             public IntervalsConfig? IntervalsConfig { get; set; }
+            public DateTime LastUpdateDate { get; set; }
         }
 
+        private const string FilePath = "../console/AppConfig/config.json";
         private readonly AppConfig _appConfig;
 
         public IFitbitConfig? FitbitConfig => _appConfig.FitbitConfig;
         public IIntervalsConfig? IntervalsConfig => _appConfig.IntervalsConfig;
+        public DateTime LastUpdateDate => _appConfig.LastUpdateDate;
 
         public static async Task<AppConfigManager> CreateAsync(IJsonReader jsonReader, CancellationToken cancellationToken)
         {
@@ -19,12 +22,25 @@ namespace Sync.Config
                 throw new ArgumentNullException(nameof(jsonReader));
 
             return new AppConfigManager(
-                appConfig: await jsonReader.ReadFileAsync<AppConfig>("../console/AppConfig/config.json", cancellationToken));
+                appConfig: await jsonReader.ReadFileAsync<AppConfig>(FilePath, cancellationToken));
         }
 
         private AppConfigManager(AppConfig? appConfig)
         {
             _appConfig = appConfig ?? throw new ArgumentNullException(nameof(appConfig));
+        }
+
+        public void SetLastUpdateDate(DateTime date)
+        {
+            _appConfig.LastUpdateDate = date;
+        }
+
+        public async Task SaveConfigAsync(IJsonWritter jsonWriter, CancellationToken cancellationToken)
+        {
+            if (jsonWriter is null)
+                throw new ArgumentNullException(nameof(jsonWriter));
+
+            await jsonWriter.WriteFileAsync<AppConfig>(_appConfig, FilePath, cancellationToken);
         }
     }
 }
