@@ -22,8 +22,8 @@ namespace Sync.Enumerator
 
         public bool MoveNext()
         {
-            _current = _value.AddDays(_days);
             _days++;
+            _current = _value.AddDays(_days);
 
             return _current <= DateTime.Today;
         }
