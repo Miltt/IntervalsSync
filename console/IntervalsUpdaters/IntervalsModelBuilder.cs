@@ -4,6 +4,18 @@ namespace Sync.IntervalsUpdaters
 {
     public sealed class IntervalsModelBuilder
     {
+        private enum SleepQualityScore
+        {
+            Great = 1,
+            Good = 2,
+            Avg = 3,
+            Poor = 4
+        }
+
+        private const int GreatSleepQuality = 90;
+        private const int GoodSleepQuality = 80;
+        private const int AvgSleepQuality = 70;
+
         public void BuildWellness(IntervalsWellness? intervalWellness, FitbitDataCollector.Wellness wellnessData, 
             ExternalDataCollector.Data data)
         {
@@ -25,7 +37,7 @@ namespace Sync.IntervalsUpdaters
                     score: out var sleepScore) && sleepScore.HasValue)
                 {
                     intervalWellness.SleepScore = Math.Round(sleepScore.Value, 1);
-                    intervalWellness.SleepQuality = GetSleepQuality(sleepScore);
+                    intervalWellness.SleepQuality = (int?)GetSleepQuality(sleepScore);
                 }
             }
 
@@ -55,18 +67,17 @@ namespace Sync.IntervalsUpdaters
             return score != null;
         }
 
-        private int? GetSleepQuality(double? value)
+        private SleepQualityScore? GetSleepQuality(double? value)
         {
-            // TODO:
-            if (value < 25)
-                return 4;
-            if (value >= 25 && value < 50)
-                return 3;
-            if (value >= 50 && value < 75)
-                return 2;
-            if (value >= 75)
-                return 1;
-            
+            if (value < AvgSleepQuality)
+                return SleepQualityScore.Poor;
+            if (value >= AvgSleepQuality && value < GoodSleepQuality)
+                return SleepQualityScore.Avg;
+            if (value >= GoodSleepQuality && value < GreatSleepQuality)
+                return SleepQualityScore.Good;
+            if (value >= GreatSleepQuality)
+                return SleepQualityScore.Great;
+
             return null;
         }
 
@@ -75,13 +86,13 @@ namespace Sync.IntervalsUpdaters
             var items = hrIntradaySeries?.ActivitiesIntraday?.Dataset;
 
             return items?.Count > 0
-                ? items.Average(i => i.Value)
+                ? Math.Round(items.Average(i => i.Value), 2)
                 : (double?)null;
         }
 
         private double? GetReadiness()
         {
-            // TODO: 
+            // TODO: activity + recent sleep + hrv
             return null;
         }
     }
