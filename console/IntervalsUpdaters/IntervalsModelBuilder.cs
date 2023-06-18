@@ -12,7 +12,7 @@ namespace Sync.IntervalsUpdaters
             Poor = 4
         }
 
-        private const int GreatSleepQuality = 90;
+        private const int GreatSleepQuality = 85;
         private const int GoodSleepQuality = 80;
         private const int AvgSleepQuality = 70;
 
