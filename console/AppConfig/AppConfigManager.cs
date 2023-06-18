@@ -7,6 +7,7 @@ namespace Sync.Config
             public FitbitConfig? FitbitConfig { get; set; }
             public IntervalsConfig? IntervalsConfig { get; set; }
             public DateTime LastUpdateDate { get; set; }
+            public LoggerConfig? LoggerConfig { get; set; }
         }
 
         private const string FilePath = "../console/AppConfig/config.json";
@@ -15,6 +16,7 @@ namespace Sync.Config
         public IFitbitConfig? FitbitConfig => _appConfig.FitbitConfig;
         public IIntervalsConfig? IntervalsConfig => _appConfig.IntervalsConfig;
         public DateTime LastUpdateDate => _appConfig.LastUpdateDate;
+        public LoggerConfig? LoggerConfig => _appConfig.LoggerConfig;
 
         public static async Task<AppConfigManager> CreateAsync(IJsonReader jsonReader, CancellationToken cancellationToken)
         {
