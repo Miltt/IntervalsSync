@@ -54,7 +54,7 @@ namespace Sync.IntervalsUpdaters
             if (intervalWellness is null)
                 throw new ArgumentNullException(nameof(intervalWellness));
             
-            intervalWellness.KcalConsumed = wellnessData.FoodLog?.Summary?.Calories;
+            intervalWellness.KcalConsumed = (int?)wellnessData.FoodLog?.Summary?.Calories;
         }
 
         private bool TryCalcSleepScore(int totalTimeInBed, int totalMinutesAsleep, out double? score)

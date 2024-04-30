@@ -5,19 +5,19 @@ namespace Sync.WebModels
     public class FitbitFoodLogSummary
     {
         [JsonPropertyName("calories")]
-        public int Calories { get; set; }
+        public double? Calories { get; set; }
         [JsonPropertyName("carbs")]
-        public double Carbs { get; set; }
+        public double? Carbs { get; set; }
         [JsonPropertyName("fat")]
-        public double Fat { get; set; }
+        public double? Fat { get; set; }
         [JsonPropertyName("fiber")]
-        public double Fiber { get; set; }
+        public double? Fiber { get; set; }
         [JsonPropertyName("protein")]
-        public double Protein { get; set; }
+        public double? Protein { get; set; }
         [JsonPropertyName("sodium")]
-        public double Sodium { get; set; }
+        public double? Sodium { get; set; }
         [JsonPropertyName("water")]
-        public int Water { get; set; }
+        public double? Water { get; set; }
 
         public FitbitFoodLogSummary()
         {
