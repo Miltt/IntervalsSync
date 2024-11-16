@@ -1,4 +1,4 @@
-using Sync.Log;
+using Sync.Utilities.Logger;
 
 namespace Sync
 {

@@ -1,6 +1,6 @@
 using System.Net.Http.Headers;
 using System.Text.Json;
-using Sync.Log;
+using Sync.Utilities.Logger;
 using Sync.Utilities;
 using Sync.WebModels;
 
@@ -10,7 +10,7 @@ namespace Sync
     {
         private class Token
         {
-            private const string FilePath = "../console/Clients/Source/token.json";
+            private const string FileName = "token.json";
             private readonly IJsonFileManager _jsonFileManager;
 
             public FitbitOAuth2AccessToken? Value { get; private set; }
@@ -29,17 +29,16 @@ namespace Sync
 
             private async Task ReadFileAsync(CancellationToken cancellationToken)
             {
-                Value = await _jsonFileManager.ReadFileAsync<FitbitOAuth2AccessToken>(FilePath, cancellationToken);
+                Value = await _jsonFileManager.ReadFileAsync<FitbitOAuth2AccessToken>(FileName, cancellationToken);
             }
 
             public async Task WriteFileAsync(FitbitOAuth2AccessToken? value, CancellationToken cancellationToken)
             {
                 Value = value ?? throw new ArgumentNullException(nameof(value));
-                await _jsonFileManager.WriteFileAsync<FitbitOAuth2AccessToken>(value, FilePath, cancellationToken);
+                await _jsonFileManager.WriteFileAsync(value, "token.json", cancellationToken);
             }
         }
 
-        private const string AuthorizationUrl = "https://www.fitbit.com/oauth2/authorize";
         private const string AccessRefresTokenUrl = "https://api.fitbit.com/oauth2/token";
 
         private readonly IFitbitConfig _config;

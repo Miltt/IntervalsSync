@@ -1,14 +1,14 @@
 ﻿using Sync.Config;
-using Sync.Log;
 using Sync.Utilities;
 using Sync.IntervalsUpdaters;
 using Sync.Enumerator;
+using Sync.Utilities.Logger;
 
 namespace Sync
 {
     internal class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             // TODO: args
 
@@ -19,8 +19,7 @@ namespace Sync
 
         private static async Task UpdateAsync(JsonFileManager jsonFileManager, CancellationToken cancellationToken)
         {
-            if (jsonFileManager is null)
-                throw new ArgumentNullException(nameof(jsonFileManager));
+            ArgumentNullException.ThrowIfNull(jsonFileManager);
 
             var configManager = await AppConfigManager.CreateAsync(jsonFileManager, cancellationToken);
             var logger = BaseLogger.Create(configManager.LoggerConfig?.FilePath);

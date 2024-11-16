@@ -1,4 +1,4 @@
-using Sync.Log;
+using Sync.Utilities.Logger;
 
 namespace Sync
 {
@@ -20,7 +20,7 @@ namespace Sync
                 throw new ArgumentNullException(nameof(jsonReader));
 
             return new ExternalClient(
-                source: await jsonReader.ReadFileAsync<ExternalSourceData>("../console/Clients/ExternalSource/externalsource.json", cancellationToken: cancellationToken),
+                source: await jsonReader.ReadFileAsync<ExternalSourceData>("externalsource.json", cancellationToken: cancellationToken),
                 logger: logger);
         }
 

@@ -10,7 +10,7 @@ namespace Sync.Config
             public LoggerConfig? LoggerConfig { get; set; }
         }
 
-        private const string FilePath = "../console/AppConfig/config.json";
+        private const string FileName = "config.json";
         private readonly AppConfig _appConfig;
 
         public IFitbitConfig? FitbitConfig => _appConfig.FitbitConfig;
@@ -24,7 +24,7 @@ namespace Sync.Config
                 throw new ArgumentNullException(nameof(jsonReader));
 
             return new AppConfigManager(
-                appConfig: await jsonReader.ReadFileAsync<AppConfig>(FilePath, cancellationToken));
+                appConfig: await jsonReader.ReadFileAsync<AppConfig>(FileName, cancellationToken));
         }
 
         private AppConfigManager(AppConfig? appConfig)
@@ -42,7 +42,7 @@ namespace Sync.Config
             if (jsonWriter is null)
                 throw new ArgumentNullException(nameof(jsonWriter));
 
-            await jsonWriter.WriteFileAsync<AppConfig>(_appConfig, FilePath, cancellationToken);
+            await jsonWriter.WriteFileAsync(_appConfig, FileName, cancellationToken);
         }
     }
 }

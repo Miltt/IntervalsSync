@@ -1,6 +1,7 @@
+using System.Globalization;
 using System.Text;
 
-namespace Sync.Log
+namespace Sync.Utilities.Logger
 {
     public sealed class FileLogger : BaseLogger
     {
@@ -20,7 +21,7 @@ namespace Sync.Log
 
         protected override void AddInternal(string message)
         {
-            _stringBuilder.Append(DateTime.Now.ToString()).Append(": ").AppendLine(message);
+            _stringBuilder.Append(DateTime.Now.ToString(CultureInfo.InvariantCulture)).Append(": ").AppendLine(message);
         }
 
         public async Task FlushAsync(CancellationToken cancellationToken)

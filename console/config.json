@@ -1,0 +1,15 @@
+{
+  "FitbitConfig": {
+    "ClientId": "",
+    "ClientSecret": ""
+  },
+  "IntervalsConfig": {
+    "UserId": "",
+    "Username": "",
+    "ApiKey": ""
+  },
+  "LastUpdateDate": "",
+  "LoggerConfig": {
+    "FilePath": null
+  }
+}

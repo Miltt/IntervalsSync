@@ -23,14 +23,13 @@ namespace Sync.Utilities
         public async Task WriteFileAsync<T>(T value, string path, CancellationToken cancellationToken)
             where T : class 
         {
-            if (value is null)
-                throw new ArgumentNullException(nameof(value));
+            ArgumentNullException.ThrowIfNull(value);
             if (string.IsNullOrEmpty(path))
                 throw new ArgumentException($"'{nameof(path)}' cannot be null or empty.", nameof(path));
             if (!File.Exists(path))
                 throw new ArgumentException($"Specified file not found {path}.");
 
-            var valueStr = JsonSerializer.Serialize<T>(value);
+            var valueStr = JsonSerializer.Serialize(value);
             if (!string.IsNullOrEmpty(valueStr))
                 await File.WriteAllTextAsync(path, valueStr, cancellationToken);
         }

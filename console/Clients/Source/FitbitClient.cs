@@ -1,6 +1,6 @@
 using System.Net.Http.Headers;
 using System.Text.Json;
-using Sync.Log;
+using Sync.Utilities.Logger;
 using Sync.Utilities;
 using Sync.WebModels;
 

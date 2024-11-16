@@ -1,4 +1,4 @@
-namespace Sync.Log
+namespace Sync.Utilities.Logger
 {
     public interface ILogger
     {

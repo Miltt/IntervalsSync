@@ -1,7 +1,7 @@
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using Sync.Log;
+using Sync.Utilities.Logger;
 using Sync.Utilities;
 using Sync.WebModels;
 

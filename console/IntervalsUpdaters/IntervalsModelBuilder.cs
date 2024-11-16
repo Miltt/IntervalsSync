@@ -87,7 +87,7 @@ namespace Sync.IntervalsUpdaters
 
             return items?.Count > 0
                 ? Math.Round(items.Average(i => i.Value), 2)
-                : (double?)null;
+                : null;
         }
 
         private double? GetReadiness()
